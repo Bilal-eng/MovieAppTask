@@ -1,9 +1,10 @@
-package com.teknasyon.movieapptask
+package com.teknasyon.movieapptask.movielistactivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.teknasyon.movieapptask.BaseActivity
+import com.teknasyon.movieapptask.R
 
-class MovieListActivity : AppCompatActivity() {
+class MovieListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_movie)

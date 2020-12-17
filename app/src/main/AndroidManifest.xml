@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.teknasyon.movieapptask">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieAppTask">
-        <activity android:name=".MovieListActivity">
+        <activity android:name=".moviedetailsactivity.MovieDetailsActivity"></activity>
+        <activity android:name=".movielistactivity.MovieListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

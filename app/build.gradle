@@ -36,6 +36,10 @@ android {
 
 dependencies {
 
+    def view_model_version = "1.1.0"
+    def paging_version = "1.0.0"
+    def support_version = "27.1.1"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -53,10 +57,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
 
     //RecyclerView dependency
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+    implementation "android.arch.lifecycle:extensions:$view_model_version"
+    implementation "android.arch.lifecycle:viewmodel:$view_model_version"
 
-    //CardView dependency
-    implementation "androidx.cardview:cardview:1.0.0"
+    //adding paging
+    implementation "android.arch.paging:runtime:$paging_version"
+
+    //adding recyclerview and cardview
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
 
     //ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

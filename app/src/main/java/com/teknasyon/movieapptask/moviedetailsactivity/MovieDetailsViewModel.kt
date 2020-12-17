@@ -1,8 +1,8 @@
 package com.teknasyon.movieapptask.moviedetailsactivity
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.teknasyon.movieapptask.MovieApplication
 
-class MovieDetailsViewModel(val application: MovieApplication): ViewModel() {
+class MovieDetailsViewModel(val context: Context): ViewModel() {
 
 }

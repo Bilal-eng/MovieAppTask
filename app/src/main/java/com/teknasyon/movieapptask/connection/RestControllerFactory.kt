@@ -2,6 +2,7 @@ package com.teknasyon.movieapptask.connection
 
 import android.content.Context
 import com.teknasyon.movieapptask.connection.factory.MovieFactory
+import com.teknasyon.movieapptask.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,11 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RestControllerFactory(context: Context?) {
-
-    companion object {
-        const val API_ADDRESS = "https://api.themoviedb.org/3/tv"
-        const val POSTER_PATH = "https://image.tmdb.org/t/p/w500/"
-    }
 
     var retrofit: Retrofit? = null
     private val timeoutInterval = 60
@@ -55,7 +51,7 @@ class RestControllerFactory(context: Context?) {
 
         client = httpClient.build()
         retrofit = Retrofit.Builder()
-            .baseUrl(API_ADDRESS)
+            .baseUrl(Constants.API_ADDRESS)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

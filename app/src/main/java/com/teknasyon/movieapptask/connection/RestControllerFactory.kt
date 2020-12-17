@@ -12,6 +12,7 @@ class RestControllerFactory(context: Context?) {
 
     companion object {
         const val API_ADDRESS = "https://api.themoviedb.org/3/tv"
+        const val POSTER_PATH = "https://image.tmdb.org/t/p/w500/"
     }
 
     var retrofit: Retrofit? = null

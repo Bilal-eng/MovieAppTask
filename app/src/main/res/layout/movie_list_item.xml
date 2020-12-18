@@ -44,33 +44,6 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/tv_movie_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:maxLines="1"
-                android:text="@string/movie_name"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/tv_movie_name_value"
-                app:layout_constraintStart_toEndOf="@+id/iv_poster"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_movie_name_value"
-                android:layout_width="105dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@android:color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.511"
-                app:layout_constraintStart_toEndOf="@+id/tv_movie_name"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="The Mandalorian" />
-
-            <TextView
                 android:id="@+id/tv_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -214,6 +187,32 @@
                 app:layout_constraintStart_toEndOf="@+id/tv_vote_average"
                 app:layout_constraintTop_toBottomOf="@+id/tv_date_value"
                 app:srcCompat="@drawable/ic_star_rate" />
+
+            <TextView
+                android:id="@+id/tv_movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Name:"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_poster"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_movie_name_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tv_movie_name"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="ZULUs 2020" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

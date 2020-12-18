@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.redditclone.utils.DiffUtilCallBack
@@ -17,22 +18,6 @@ import com.teknasyon.movieapptask.utils.Constants
 class MovieListAdapter(val context: Context?, private val movieListInterface: MovieListInterface?) :
     PagedListAdapter<ResultsModel, MovieListAdapter.ViewHolder>(DiffUtilCallBack()) {
 
-    private var listOfMovies: List<ResultsModel>? = ArrayList()
-
-
-    fun setListOfMovies(listOfMovies: List<ResultsModel>?) {
-        this.listOfMovies = listOfMovies
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int {
-        if (listOfMovies != null) {
-            return listOfMovies!!.size
-        }
-        return 0
-    }
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.movie_list_item, parent, false)
@@ -41,7 +26,7 @@ class MovieListAdapter(val context: Context?, private val movieListInterface: Mo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = listOfMovies?.get(position)
+        val movie = getItem(position)
 
         val imageUrl = Constants.POSTER_PATH + movie?.poster_path
 
@@ -62,7 +47,7 @@ class MovieListAdapter(val context: Context?, private val movieListInterface: Mo
 
         holder.tv_vote_count_value.text = movie?.vote_count.toString()
 
-        holder.itemView.setOnClickListener {
+        holder.cardView.setOnClickListener {
             movieListInterface?.onMovieItemClick(movie?.id)
         }
 
@@ -77,6 +62,7 @@ class MovieListAdapter(val context: Context?, private val movieListInterface: Mo
         val tv_date_value: TextView = itemView.findViewById(R.id.tv_date_value)
         val tv_vote_average_value: TextView = itemView.findViewById(R.id.tv_vote_average_value)
         val tv_vote_count_value: TextView = itemView.findViewById(R.id.tv_vote_count_value)
+        val cardView: CardView = itemView.findViewById(R.id.cardView)
 
     }
 }

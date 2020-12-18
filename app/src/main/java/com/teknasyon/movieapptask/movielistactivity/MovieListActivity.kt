@@ -2,12 +2,12 @@ package com.teknasyon.movieapptask.movielistactivity
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.teknasyon.movieapptask.BaseActivity
 import com.teknasyon.movieapptask.R
 import com.teknasyon.movieapptask.adapters.MovieListAdapter
 import com.teknasyon.movieapptask.adapters.MovieListInterface
+import com.teknasyon.movieapptask.utils.NavigationHelper
 import com.teknasyon.movieapptask.utils.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_list_movie.*
 
@@ -21,28 +21,12 @@ class MovieListActivity : BaseActivity(), MovieListInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_movie)
 
-
-        swipe_to_refresh_movie_list.setColorSchemeResources(R.color.purple_500)
-
-        swipe_to_refresh_movie_list.setOnRefreshListener {
-            viewModel.getMoviesList()
-        }
-
         viewModelFactory = ViewModelFactory(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
 
-        viewModel.showProgress.observe(this, {
-            if (it)
-                showLoading()
-            else
-                hideLoading()
-        })
-
-        viewModel.getMoviesList()
-
-        viewModel.listMovieResponse.observe(this, {
-            movieListAdapter.setListOfMovies(it.results)
-            swipe_to_refresh_movie_list.isRefreshing = false
+        viewModel.moviePagedList.observe(this, {
+            movieListAdapter.submitList(it)
+            hideLoading()
         })
 
         movieListAdapter = MovieListAdapter(this, this)
@@ -51,6 +35,6 @@ class MovieListActivity : BaseActivity(), MovieListInterface {
     }
 
     override fun onMovieItemClick(movieId: Int?) {
-        Toast.makeText(this, movieId.toString(), Toast.LENGTH_LONG).show()
+        NavigationHelper.getInstance().startMovieDetailsActivity(this, movieId)
     }
 }

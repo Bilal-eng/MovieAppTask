@@ -22,7 +22,7 @@ class MovieDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
 
-        viewModelFactory = ViewModelFactory(this)
+        viewModelFactory = ViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieDetailsViewModel::class.java)
 
         viewModel.showProgress.observe(this, {

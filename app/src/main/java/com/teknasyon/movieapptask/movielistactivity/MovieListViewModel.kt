@@ -1,16 +1,15 @@
 package com.teknasyon.movieapptask.movielistactivity
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.teknasyon.movieapptask.model.ResultsModel
 
-class MovieListViewModel(val context: Context) : ViewModel() {
-    private val repository = MovieListRepository(context)
+class MovieListViewModel : ViewModel() {
+    private val repository = MovieListRepository()
 
-    val  networkState : LiveData<NetworkState> by lazy {
+    val networkState: LiveData<NetworkState> by lazy {
         repository.getNetworkState()
     }
 
@@ -18,7 +17,7 @@ class MovieListViewModel(val context: Context) : ViewModel() {
         return moviePagedList.value?.isEmpty() ?: true
     }
 
-    val  moviePagedList : LiveData<PagedList<ResultsModel>> by lazy {
+    val moviePagedList: LiveData<PagedList<ResultsModel>> by lazy {
         repository.fetchLiveMoviePagedList()
     }
 }

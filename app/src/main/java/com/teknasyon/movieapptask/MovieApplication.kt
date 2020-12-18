@@ -23,9 +23,5 @@ class MovieApplication : Application() {
         lateinit var clientPreferences: ClientPreferences
         lateinit var restControllerFactory: RestControllerFactory
         lateinit var appContext: MovieApplication
-
-        fun refreshConnectionInstance() {
-            restControllerFactory = RestControllerFactory(appContext)
-        }
     }
 }

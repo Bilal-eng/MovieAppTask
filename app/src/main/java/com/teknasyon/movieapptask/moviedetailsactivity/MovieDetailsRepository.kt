@@ -1,19 +1,16 @@
 package com.teknasyon.movieapptask.moviedetailsactivity
 
-import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.teknasyon.movieapptask.MovieApplication
 import com.teknasyon.movieapptask.model.response.MovieDetailsResponse
 import com.teknasyon.movieapptask.utils.Constants
-import com.teknasyon.movieapptask.utils.ErrorUtils
 import com.teknasyon.movieapptask.utils.Logger
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieDetailsRepository(val context: Context) {
+class MovieDetailsRepository {
 
     val showProgress = MutableLiveData<Boolean>()
     val movieDetailsResponse = MutableLiveData<MovieDetailsResponse>()
@@ -35,8 +32,6 @@ class MovieDetailsRepository(val context: Context) {
                         Logger.debugSuccessLogMessage("Movie details has been received successfully")
                         networkState.postValue(NetworkState.LOADED)
                     } else {
-                        val apiError = ErrorUtils.parseError(response)
-                        Toast.makeText(context, apiError?.message(), Toast.LENGTH_LONG).show()
                         Logger.debugErrorLogMessage(response.message())
                         networkState.postValue(NetworkState.ERROR)
                     }

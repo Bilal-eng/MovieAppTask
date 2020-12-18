@@ -26,7 +26,7 @@ class MovieListActivity : BaseActivity(), MovieListInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_movie)
 
-        viewModelFactory = ViewModelFactory(this)
+        viewModelFactory = ViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
 
         viewModel.moviePagedList.observe(this, {

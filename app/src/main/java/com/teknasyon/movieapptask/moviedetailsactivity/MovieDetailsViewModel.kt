@@ -1,14 +1,13 @@
 package com.teknasyon.movieapptask.moviedetailsactivity
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.teknasyon.movieapptask.model.response.MovieDetailsResponse
 
-class MovieDetailsViewModel(val context: Context) : ViewModel() {
+class MovieDetailsViewModel : ViewModel() {
 
-    private val repository = MovieDetailsRepository(context)
+    private val repository = MovieDetailsRepository()
     val showProgress: LiveData<Boolean>
     val movieDetailsResponse: LiveData<MovieDetailsResponse>
     val networkState: LiveData<NetworkState>

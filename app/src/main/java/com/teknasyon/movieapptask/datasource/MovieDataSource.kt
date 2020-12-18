@@ -1,6 +1,5 @@
 package com.teknasyon.movieapptask.datasource
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
@@ -14,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieDataSource(val context: Context) : PageKeyedDataSource<Int, ResultsModel>() {
+class MovieDataSource : PageKeyedDataSource<Int, ResultsModel>() {
 
     private var page = FIRST_PAGE
     val networkState: MutableLiveData<NetworkState> = MutableLiveData()
@@ -71,6 +70,8 @@ class MovieDataSource(val context: Context) : PageKeyedDataSource<Int, ResultsMo
                             } else {
                                 networkState.postValue(NetworkState.ENDOFLIST)
                             }
+                        } else {
+                            networkState.postValue(NetworkState.ENDOFLIST)
                         }
                     }
 

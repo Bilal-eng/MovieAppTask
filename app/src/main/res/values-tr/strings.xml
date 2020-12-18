@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Film Listesi</string>
+    <string name="movie_details">Film Detayları</string>
+    <string name="movie_name">İsim:</string>
+    <string name="country">Ülke:</string>
+    <string name="popularity">Popülerlik:</string>
+    <string name="date">Tarih:</string>
+    <string name="vote_average">Oy Ortalaması:</string>
+    <string name="vote_count">Oy Sayısı:</string>
+    <string name="created_by">Tarafından yaratıldı:</string>
+    <string name="oops_connection_problem">Tüh! Bağlantı sorunu</string>
+</resources>

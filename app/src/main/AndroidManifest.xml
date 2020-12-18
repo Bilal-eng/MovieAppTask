@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieAppTask">
-        <activity android:name=".moviedetailsactivity.MovieDetailsActivity" />
+        <activity android:name=".moviedetailsactivity.MovieDetailsActivity"
+            android:label="@string/movie_details"/>
         <activity android:name=".movielistactivity.MovieListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

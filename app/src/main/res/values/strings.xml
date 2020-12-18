@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Movies List</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="movie_name">Name:</string>
+    <string name="country">Country:</string>
+    <string name="popularity">Popularity:</string>
+    <string name="date">Date:</string>
+    <string name="vote_average">Vote Average:</string>
+    <string name="vote_count">Vote Count:</string>
+    <string name="created_by">Created by:</string>
+    <string name="oops_connection_problem">OOPS! Connection problem</string>
 </resources>

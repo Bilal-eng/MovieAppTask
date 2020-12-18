@@ -3,6 +3,7 @@ package com.teknasyon.movieapptask.moviedetailsactivity
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.teknasyon.movieapptask.MovieApplication
 import com.teknasyon.movieapptask.model.response.MovieDetailsResponse
 import com.teknasyon.movieapptask.utils.Constants
@@ -16,6 +17,7 @@ class MovieDetailsRepository(val context: Context) {
 
     val showProgress = MutableLiveData<Boolean>()
     val movieDetailsResponse = MutableLiveData<MovieDetailsResponse>()
+    val networkState = MutableLiveData<NetworkState>()
 
     fun getMovieDetails(tvId: Int?) {
         showProgress.value = true
@@ -31,10 +33,12 @@ class MovieDetailsRepository(val context: Context) {
                     if (response.isSuccessful) {
                         movieDetailsResponse.value = response.body()
                         Logger.debugSuccessLogMessage("Movie details has been received successfully")
+                        networkState.postValue(NetworkState.LOADED)
                     } else {
                         val apiError = ErrorUtils.parseError(response)
                         Toast.makeText(context, apiError?.message(), Toast.LENGTH_LONG).show()
                         Logger.debugErrorLogMessage(response.message())
+                        networkState.postValue(NetworkState.ERROR)
                     }
                     showProgress.value = false
                 }
@@ -42,6 +46,7 @@ class MovieDetailsRepository(val context: Context) {
                 override fun onFailure(call: Call<MovieDetailsResponse>, t: Throwable) {
                     Logger.debugErrorLogMessage(t.message.toString())
                     showProgress.value = false
+                    networkState.postValue(NetworkState.ERROR)
                 }
 
             }

@@ -4,65 +4,129 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.raywenderlich.android.redditclone.utils.DiffUtilCallBack
 import com.squareup.picasso.Picasso
 import com.teknasyon.movieapptask.R
 import com.teknasyon.movieapptask.model.ResultsModel
 import com.teknasyon.movieapptask.utils.Constants
+import kotlinx.android.synthetic.main.movie_list_item.view.*
+import kotlinx.android.synthetic.main.network_state_item.view.*
 
 class MovieListAdapter(val context: Context?, private val movieListInterface: MovieListInterface?) :
-    PagedListAdapter<ResultsModel, MovieListAdapter.ViewHolder>(DiffUtilCallBack()) {
+    PagedListAdapter<ResultsModel, RecyclerView.ViewHolder>(DiffUtilCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.movie_list_item, parent, false)
+    val MOVIE_VIEW_TYPE = 1
+    val NETWORK_VIEW_TYPE = 2
+    private var networkState: NetworkState? = null
 
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view: View
+
+        return if (viewType == MOVIE_VIEW_TYPE) {
+            view = layoutInflater.inflate(R.layout.movie_list_item, parent, false)
+            MovieItemViewHolder(view)
+        } else {
+            view = layoutInflater.inflate(R.layout.network_state_item, parent, false)
+            NetworkStateItemViewHolder(view)
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = getItem(position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val imageUrl = Constants.POSTER_PATH + movie?.poster_path
+        if (getItemViewType(position) == MOVIE_VIEW_TYPE) {
+            (holder as MovieItemViewHolder).bind(getItem(position), movieListInterface)
+        } else {
+            (holder as NetworkStateItemViewHolder).bind(networkState)
+        }
+    }
 
-        Picasso.get().load(imageUrl).fit().centerCrop().into(holder.iv_poster)
+    class MovieItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        holder.tv_movie_name_value.text = movie?.name
+        fun bind(movie: ResultsModel?, movieListInterface: MovieListInterface?) {
 
-        if (movie?.origin_country?.size != 0)
-            holder.tv_country_name.text = movie?.origin_country?.get(0) ?: "US"
-        else
-            holder.tv_country_name.text = "US"
+            val imageUrl = Constants.POSTER_PATH + movie?.poster_path
 
-        holder.tv_popularity_value.text = movie?.popularity.toString()
+            Picasso.get().load(imageUrl).fit().centerCrop().into(itemView.iv_poster)
 
-        holder.tv_date_value.text = movie?.first_air_date
+            itemView.tv_movie_name_value.text = movie?.name
 
-        holder.tv_vote_average_value.text = movie?.vote_average.toString()
+            if (movie?.origin_country?.size != 0)
+                itemView.tv_country_name.text = movie?.origin_country?.get(0) ?: "US"
+            else
+                itemView.tv_country_name.text = "US"
 
-        holder.tv_vote_count_value.text = movie?.vote_count.toString()
+            itemView.tv_popularity_value.text = movie?.popularity.toString()
 
-        holder.cardView.setOnClickListener {
-            movieListInterface?.onMovieItemClick(movie?.id)
+            itemView.tv_date_value.text = movie?.first_air_date
+
+            itemView.tv_vote_average_value.text = movie?.vote_average.toString()
+
+            itemView.tv_vote_count_value.text = movie?.vote_count.toString()
+
+            itemView.cardView.setOnClickListener {
+                movieListInterface?.onMovieItemClick(movie?.id)
+            }
+
         }
 
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NetworkStateItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val iv_poster: ImageView = itemView.findViewById(R.id.iv_poster)
-        val tv_movie_name_value: TextView = itemView.findViewById(R.id.tv_movie_name_value)
-        val tv_country_name: TextView = itemView.findViewById(R.id.tv_country_name)
-        val tv_popularity_value: TextView = itemView.findViewById(R.id.tv_popularity_value)
-        val tv_date_value: TextView = itemView.findViewById(R.id.tv_date_value)
-        val tv_vote_average_value: TextView = itemView.findViewById(R.id.tv_vote_average_value)
-        val tv_vote_count_value: TextView = itemView.findViewById(R.id.tv_vote_count_value)
-        val cardView: CardView = itemView.findViewById(R.id.cardView)
+        fun bind(networkState: NetworkState?) {
+            if (networkState != null && networkState == NetworkState.LOADING) {
+                itemView.progress_bar_item.visibility = View.VISIBLE;
+            } else {
+                itemView.progress_bar_item.visibility = View.GONE;
+            }
+
+            if (networkState != null && networkState == NetworkState.ERROR) {
+                itemView.error_msg_item.visibility = View.VISIBLE;
+                itemView.error_msg_item.text = networkState.msg;
+            } else if (networkState != null && networkState == NetworkState.ENDOFLIST) {
+                itemView.error_msg_item.visibility = View.VISIBLE;
+                itemView.error_msg_item.text = networkState.msg;
+            } else {
+                itemView.error_msg_item.visibility = View.GONE;
+            }
+        }
+    }
+
+    private fun hasExtraRow(): Boolean {
+        return networkState != null && networkState != NetworkState.LOADED
+    }
+
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (hasExtraRow() && position == itemCount - 1) {
+            NETWORK_VIEW_TYPE
+        } else {
+            MOVIE_VIEW_TYPE
+        }
+    }
+
+    fun setNetworkState(newNetworkState: NetworkState) {
+        val previousState = this.networkState
+        val hadExtraRow = hasExtraRow()
+        this.networkState = newNetworkState
+        val hasExtraRow = hasExtraRow()
+
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(itemCount - 1)
+        }
 
     }
 }

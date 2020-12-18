@@ -1,7 +1,10 @@
 package com.teknasyon.movieapptask.moviedetailsactivity
 
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.ViewModelProvider
+import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.squareup.picasso.Picasso
 import com.teknasyon.movieapptask.BaseActivity
 import com.teknasyon.movieapptask.R
@@ -35,6 +38,16 @@ class MovieDetailsActivity : BaseActivity() {
 
         viewModel.movieDetailsResponse.observe(this, {
             bindViews(it)
+        })
+
+        viewModel.networkState.observe(this, {
+            if (it == NetworkState.ERROR) {
+                tv_error.visibility = VISIBLE
+                scrollView.visibility = GONE
+            } else {
+                tv_error.visibility = GONE
+                scrollView.visibility = VISIBLE
+            }
         })
 
     }

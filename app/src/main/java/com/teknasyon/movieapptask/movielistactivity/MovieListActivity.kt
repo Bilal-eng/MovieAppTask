@@ -1,8 +1,12 @@
 package com.teknasyon.movieapptask.movielistactivity
 
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.oxcoding.moviemvvm.data.repository.NetworkState
 import com.teknasyon.movieapptask.BaseActivity
 import com.teknasyon.movieapptask.R
 import com.teknasyon.movieapptask.adapters.MovieListAdapter
@@ -17,6 +21,7 @@ class MovieListActivity : BaseActivity(), MovieListInterface {
     private lateinit var viewModel: MovieListViewModel
     private lateinit var movieListAdapter: MovieListAdapter
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_movie)
@@ -26,7 +31,18 @@ class MovieListActivity : BaseActivity(), MovieListInterface {
 
         viewModel.moviePagedList.observe(this, {
             movieListAdapter.submitList(it)
-            hideLoading()
+        })
+
+
+        viewModel.networkState.observe(this, {
+            progress_bar.visibility =
+                if (viewModel.listIsEmpty() && it == NetworkState.LOADING) VISIBLE else GONE
+            tv_error_message.visibility =
+                if (viewModel.listIsEmpty() && it == NetworkState.ERROR) VISIBLE else GONE
+
+            if (!viewModel.listIsEmpty()) {
+                movieListAdapter.setNetworkState(it)
+            }
         })
 
         movieListAdapter = MovieListAdapter(this, this)

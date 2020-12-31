@@ -6,5 +6,6 @@
   <li>Show information details about every movie in the previous list</li>
   </ul>
   <img width="200" src="/app/src/main/res/drawable/movie_list.png"/>
+  <br/><br/>
   <img width="200" src="/app/src/main/res/drawable/movie_details.png"/>
 </div>
